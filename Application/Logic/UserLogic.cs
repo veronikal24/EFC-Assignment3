@@ -21,7 +21,9 @@ public class UserLogic: IUserLogic
             throw new Exception("Username already taken!");
 
         ValidateData(userToCreate);
-        User toCreate = new User(userToCreate.UserName, userToCreate.Password);
+        User toCreate = new User();
+        toCreate.UserName = userToCreate.UserName;
+        toCreate.Password = userToCreate.Password;
         User created = await _userDaoA1.CreateAsync(toCreate);
     
         return created;

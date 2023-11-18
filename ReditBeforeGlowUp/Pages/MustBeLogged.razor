@@ -31,7 +31,7 @@
 </div>
 
 @code {
-    private Post post = new Post(0, "", ""); // Initialize with default values, assuming UserId will be set later
+    private Post post = new Post(); // Initialize with default values, assuming UserId will be set later
     private string userName;
     private int id;
     private async Task CreatePost()

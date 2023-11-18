@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Domain_A1.Models;
 
 
@@ -8,12 +10,11 @@ public class User
     public string Password { get; set; }
     public int Age { get; set; }
     public string Email { get; set; }
+    [JsonIgnore]
+    public ICollection<Post> Posts { get; set; }
     
-    public User(string username, string password)
-    {
-        UserName = username;
-        Password = password;
-    }
+
+    
     
     
 }

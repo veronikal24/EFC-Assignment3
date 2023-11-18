@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using FileData.DAOs;
-using FileData.FileDaoImplem;
+using EfcDataAccess;
 using SharedFolder.Models;
 
 using WebAPI.Services;
@@ -9,7 +8,7 @@ namespace WebApi.Services;
 
 public class AuthService : IAuthService
 {
-
+    private readonly PostContext context;
     private readonly IList<User> users = new List<User>
     
     {
@@ -81,8 +80,8 @@ public class AuthService : IAuthService
     public  Task<Domain_A1.Models.User> CheckTheAPi(string username, string password)
     {
       
-        FileContextA1 fileContextA1 = new FileContextA1();
-        UserFileDao fileDao = new UserFileDao(fileContextA1);
+       
+        UserEfcDao fileDao = new UserEfcDao(context);
         Task<Domain_A1.Models.User?>  user = fileDao.GetByUsernameAsync(username);
        
         if (user == null)

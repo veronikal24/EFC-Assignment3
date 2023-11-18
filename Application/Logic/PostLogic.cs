@@ -24,7 +24,12 @@ public class PostLogic: IPostLogic
         }
 
         ValidateTodo(dto);
-        Post todo = new Post(user.Id, dto.Body, dto.Title);
+        Post todo = new Post();
+        todo.UserId = user.Id;
+        todo.Body = dto.Body;
+        todo.Title = dto.Title;
+       
+        
         Post created = await postDao.CreateAsync(todo);
         return created;
     }

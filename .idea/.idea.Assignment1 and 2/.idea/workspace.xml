@@ -12,7 +12,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8fcee926-5c48-4099-b59a-427e59e76ff1" name="Changes" comment="" />
+    <list default="true" id="8fcee926-5c48-4099-b59a-427e59e76ff1" name="Changes" comment="firsts commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -151,7 +151,7 @@
       <option name="presentableId" value="Default" />
       <updated>1700317454915</updated>
       <workItem from="1700317456060" duration="676000" />
-      <workItem from="1700318337527" duration="1248000" />
+      <workItem from="1700318337527" duration="3974000" />
     </task>
     <servers />
   </component>

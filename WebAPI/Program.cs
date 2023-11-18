@@ -3,8 +3,7 @@ using Application.DaoInterfaces;
 using Domain_A1.DTOs;
 using Application.Logic;
 using Application.LogicInterfaces;
-using FileData.DAOs;
-using FileData.FileDaoImplem;
+using EfcDataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ReditBeforeGlowUp.Services.Http.Implementations;
@@ -21,11 +20,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<FileContextA1>();
-builder.Services.AddScoped<IUserDaoA1, UserFileDao>();
+builder.Services.AddScoped<IUserDaoA1, UserEfcDao>();
 builder.Services.AddScoped<IUserLogic, UserLogic>();
-builder.Services.AddScoped<IPostDao, PostFileDao>();
+builder.Services.AddScoped<IPostDao, PostEfcDao>();
 builder.Services.AddScoped<IPostLogic, PostLogic>();
+builder.Services.AddDbContext<PostContext>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 // added auth handling
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
