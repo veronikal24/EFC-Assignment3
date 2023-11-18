@@ -1,0 +1,90 @@
+﻿@page "/ViewAllPosts"
+@using Domain_A1.Models
+@using ReditBeforeGlowUp.Services.Http.Implementations
+@inject NavigationManager Navigation
+
+@inject IPostService ipostService
+
+@if (todos == null)
+{
+}
+else if (!todos.Any())
+{
+    <p class="no-posts">No Posts to view</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Reddit Posts</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in todos)
+        {
+            <tr @onclick="() => ShowDetails(item.Title)">
+                <td>@item.Title</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label class="error-msg">@msg</label>
+}
+
+@code {
+    private IEnumerable<Post>? todos;
+    private string msg = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            todos = await ipostService.GetAllAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private void ShowDetails(string itemTitle)
+    {
+    // Navigate to the details page, e.g., using navigation manager
+        Navigation.NavigateTo($"/Post/{itemTitle}");
+    }
+}
+
+<style>
+    /* Add custom styles for better appearance */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+
+    .no-posts, .error-msg {
+        color: #d9534f; /* Bootstrap's danger color */
+        margin-top: 20px;
+    }
+</style>

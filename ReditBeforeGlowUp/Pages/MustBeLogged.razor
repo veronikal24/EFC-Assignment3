@@ -1,0 +1,65 @@
+@page "/MustBeLogged"
+@using Domain_A1.Models
+@using ReditBeforeGlowUp.Services.Http.Implementations
+@using Domain_A1.DTOs
+@using ReditBeforeGlowUp.Services.Http
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IPostService postService
+@inject IUserService IuserService
+@inject NavigationManager Navigation
+@attribute [Authorize]
+<h3>Create A Post</h3>
+
+<p>Functionality only available for logged-in users. Given that you're seeing this, you're logged in</p>
+<div>
+    <p>Welcome, @userName!</p>
+    
+    <!-- Your post creation form here -->
+</div>
+<div>
+    <form>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" @bind="post.Title" />
+        </div>
+        <div class="form-group">
+            <label for="body">Body</label>
+            <textarea class="form-control" id="body" @bind="post.Body"></textarea>
+        </div>
+        <button class="btn btn-primary" @onclick="CreatePost">Create Post</button>
+    </form>
+</div>
+
+@code {
+    private Post post = new Post(0, "", ""); // Initialize with default values, assuming UserId will be set later
+    private string userName;
+    private int id;
+    private async Task CreatePost()
+    {
+    // You need to set the UserId before creating the post
+    // This might come from the authentication system or another source
+    // For now, I'm setting it to a dummy value
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            userName = user.Identity.Name;
+        }
+       ICollection<Domain_A1.Models.User> users = await IuserService.GetUserByNameAsync(userName);
+
+   
+        if (users.Count > 0)
+        {
+            id = users.First().Id;
+        }
+        else
+        {
+            new Exception("The user is not registered in API");
+        }
+
+        PostCreationDto post = new PostCreationDto(id, this.post.Title, this.post.Body);
+        await postService.CreateAsync(post);
+        Navigation.NavigateTo("/ViewAllPosts");
+    }
+}

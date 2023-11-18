@@ -1,0 +1,71 @@
+@page "/Login"
+@using ReditBeforeGlowUp.Services
+@inject NavigationManager Navigation
+@inject IAuthService authService
+@inject NavigationManager navMgr
+<AuthorizeView>
+    <NotAuthorized>
+        <div class="login-container">
+            <div class="login-card">
+                <h3>Login</h3>
+                <div class="field">
+                    <label for="userName">User name:</label>
+                    <input type="text" id="userName" @bind="userName" class="form-control"/>
+                </div>
+                <div class="field">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" @bind="password" class="form-control"/>
+                </div>
+                @if (!string.IsNullOrEmpty(errorLabel))
+                {
+                    <div class="field error-message">
+                        @errorLabel
+                    </div>
+                }
+                <div class="nav-item px-3">
+                    <div class="field">
+                        <button class="login-btn" @onclick="LoginAsync">Log in</button>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </NotAuthorized>
+    <Authorized>
+        <div class="card">
+            <h3>Hello, @context.User.Identity.Name</h3>
+        </div>
+    </Authorized>
+</AuthorizeView>
+<div class="nav-item px-30" style="margin-top: 80px;">
+<h3>Don't have an account?</h3>
+<Button Color="ButtonColor.Primary" Size="Size.Small" @onclick="OnClick">Register Now</Button>
+</div>
+<p>You can still view all posts, but you cannot post yourself without being logged in</p>
+
+@code {
+    private string userName;
+    private string password;
+    private string errorLabel;
+
+    private async Task LoginAsync()
+    {
+        errorLabel = "";
+        try
+        {
+            await authService.LoginAsync(userName, password);
+            navMgr.NavigateTo("/");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+
+    private void OnClick()
+    { 
+        Console.WriteLine("Navigating to User");
+        Navigation.NavigateTo($"/RegisterUser");
+        Console.WriteLine("Navigating to User");
+    }
+}

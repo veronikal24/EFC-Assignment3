@@ -1,0 +1,88 @@
+@page "/RegisterUser"
+@inject IUserService IuserService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+<h3>RegisterUser</h3>
+
+
+@using Domain_A1.Models
+@using ReditBeforeGlowUp.Services.Http
+@using Domain_A1.DTOs
+@using System.Data
+@using Microsoft.AspNetCore.Mvc.RazorPages
+
+<h3>User Registration</h3>
+@if (registrationSuccess)
+{
+    <p>Registration successful!</p> 
+}
+else if (showNotification)
+{
+    <div class="notification">
+     <p>Registration not at all successful!</p> 
+        @message
+    </div>
+}
+else
+{
+
+    <form>
+        <div class="form-group">
+            <label for="userName">Username</label>
+            <input type="text" class="form-control" id="userName" @bind="user.UserName" />
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" @bind="user.Password" />
+        </div>
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" class="form-control" id="age" @bind="user.Age" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" @bind="user.Email" />
+        </div>
+        <button class="btn btn-primary" @onclick="RegisterUserPlease">Register</button>
+    </form>
+}
+
+@code {
+    bool registrationSuccess = false;
+   
+    User user = new User("", "");
+    private bool showNotification = false;
+    private string message = "";
+
+    async Task RegisterUserPlease()
+    {
+        user.UserName = user.UserName;
+        user.Password = user.Password;
+        UserCreationDto dto = new UserCreationDto(user.UserName, user.Password);
+        try
+        {
+            await IuserService.CreateAsync(dto);
+            registrationSuccess = true; // Move this line inside the try block if the registration is successfu
+
+            var returnUrl = Navigation.ToBaseRelativePath(Navigation.Uri);
+
+            if (string.IsNullOrWhiteSpace(returnUrl))
+                Navigation.NavigateTo("/Login", true);
+            else
+                Navigation.NavigateTo($"/Login?returnUrl={returnUrl}", true);
+        }
+        catch (Exception ex)
+        {
+            Console.Write("Registration Failed");
+            message = "Registration failed";
+            registrationSuccess = false;
+        }
+    }
+        
+      
+
+        
+        
+    }
+
+}

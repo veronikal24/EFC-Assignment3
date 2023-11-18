@@ -1,0 +1,91 @@
+﻿<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">ReditBeforeGlowUp</a>
+        <button class="navbar-toggler" type="button" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="MustBeLogged">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Make a new Post
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="ShowCredentialsFromContext">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Your Claims
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="ViewAllPosts">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> View All Posts
+            </NavLink>
+        </div>
+        <!-- Add a link for the Login page -->
+        <div class="nav-item">
+            <NavLink class="nav-link" href="Login">
+                <span class="oi oi-account-login" aria-hidden="true"></span> Login
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
+
+<style>
+    /* Add custom styles for better appearance */
+    .navbar {
+        background-color: #343a40; /* Bootstrap's dark background color */
+        padding: 10px 0;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff; /* White text */
+        text-decoration: none;
+    }
+
+    .navbar-toggler {
+        border: none;
+    }
+
+    .navbar-toggler-icon {
+        background-color: #fff; /* White color for the toggler icon */
+    }
+
+    .nav-item {
+        margin-bottom: 10px;
+    }
+
+    .nav-link {
+        color: #fff; /* White text for links */
+        text-decoration: none;
+    }
+
+    .nav-link:hover {
+        text-decoration: underline; /* Underline on hover */
+    }
+
+    .nav-scrollable {
+        background-color: #343a40; /* Same as navbar background for consistency */
+        padding: 10px;
+    }
+</style>

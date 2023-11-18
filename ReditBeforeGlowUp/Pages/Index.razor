@@ -1,0 +1,13 @@
+﻿@page "/"
+@using System.Security.Claims
+<AuthorizeView>
+    <Authorized>
+        <h3>Welcome to Reddit Before Glow UP:  @context.User.Identity.Name</h3>
+        <p>@context.User.Claims.First(claim => claim.Type.Equals(ClaimTypes.Role)).Value</p>
+      
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not logged in.</p>
+    </NotAuthorized>
+</AuthorizeView>
+

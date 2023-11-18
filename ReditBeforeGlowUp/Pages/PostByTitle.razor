@@ -1,0 +1,48 @@
+
+@page "/Post/{itemTitle}"
+@using Domain_A1.Models
+@using ReditBeforeGlowUp.Services.Http
+@using ReditBeforeGlowUp.Services.Http.Implementations
+@inject NavigationManager Navigation
+
+@inject IPostService ipostService
+
+
+@if (item == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div>
+        <h4>Item Details</h4>
+        <p><strong>Title:</strong> @item.Title</p>
+        <p><strong>Body:</strong> @item.Body</p>
+     <p><strong>User Id:</strong> @item.UserId</p>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public String itemTitle { get; set; }
+
+    private Post item; // Get this item from your service
+    private IEnumerable<Post>? todos;
+    private string msg = "";
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            todos = await ipostService.GetByTitleAsync(itemTitle);
+            item = todos.FirstOrDefault();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+        
+
+    }
+   
+}
